@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* partner_employee_number
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-8a26a88\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-11 12:59+0000\n"
+"PO-Revision-Date: 2014-12-11 12:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_employee_number
+#: field:res.partner,number_of_employees:0
+msgid "Number of employees"
+msgstr ""
+
+#. module: partner_employee_number
+#: model:ir.model,name:partner_employee_number.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: partner_employee_number
+#: help:res.partner,number_of_employees:0
+msgid "This field is not computed. It must be filled in manually."
+msgstr ""

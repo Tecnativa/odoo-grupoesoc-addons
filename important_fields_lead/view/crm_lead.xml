@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+OpenERP, Open Source Management Solution
+Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<openerp>
+<data>
+
+<record id="highlight" model="ir.ui.view">
+    <field name="name">Highlight important fields</field>
+    <field name="model">crm.lead</field>
+    <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+    <field name="priority">17</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="class">
+                    oe_form_important
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='contact_name']" position="attributes">
+                <attribute name="class">
+                    oe_inline
+                    oe_form_important
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="class">
+                    oe_form_important
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_name']" position="attributes">
+                <attribute name="class">
+                    oe_form_important
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="class">
+                    oe_form_important
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='section_id']" position="attributes">
+                <attribute name="class">
+                    oe_form_important
+                </attribute>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+</data>
+</openerp>

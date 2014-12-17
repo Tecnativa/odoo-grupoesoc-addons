@@ -1,0 +1,35 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* partner_orp_technician
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140224-002809\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-04 10:05+0000\n"
+"PO-Revision-Date: 2014-03-04 11:07+0100\n"
+"Last-Translator: Jairo Llopis <yajo.sk8@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: partner_orp_technician
+#: model:ir.model,name:partner_orp_technician.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: partner_orp_technician
+#: help:res.partner,orp_technician_id:0
+msgid ""
+"Technician in charge of managing this partner's occupational risk prevention"
+msgstr ""
+"Técnico a cargo de gestionar la prevención de riesgos laborales de esta "
+"empresa"
+
+#. module: partner_orp_technician
+#: view:res.partner:0 field:res.partner,orp_technician_id:0
+msgid "ORP technician"
+msgstr "Técnico PRL"

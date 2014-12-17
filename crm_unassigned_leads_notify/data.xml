@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+# OpenERP, Open Source Management Solution
+# Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<openerp>
+<data>
+
+<!-- Filter for assigned leads -->
+<record id="filter_assigned" model="ir.filters">
+    <field name="name">Assigned</field>
+    <field name="model_id">crm.lead</field>
+    <field name="user_id"/>
+    <field name="domain">[['user_id', '!=', False]]</field>
+    <field name="context">{}</field>
+</record>
+
+<!-- Filter for unassigned leads -->
+<record id="filter_unassigned" model="ir.filters">
+    <field name="name">Unassigned</field>
+    <field name="model_id">crm.lead</field>
+    <field name="user_id"/>
+    <field name="domain">[['user_id', '=', False]]</field>
+    <field name="context">{}</field>
+</record>
+
+<!-- Subtype of notification messages -->
+<record id="mt_unassigned_lead" model="mail.message.subtype">
+    <field name="name">Unassigned</field>
+    <field name="res_model">crm.lead</field>
+    <field name="default" eval="True"/>
+    <field name="description">Unassigned lead or opportunity</field>
+</record>
+
+<!-- Server action to notify the corresponding users -->
+<record id="server_action" model="ir.actions.server">
+    <field name="name">Notify unassigned lead/opportunity</field>
+    <field name="model_id" ref="crm.model_crm_lead"/>
+    <field name="condition">not object.user_id</field>
+    <field name="state">code</field>
+    <field name="code">
+        self.message_post(
+            cr,
+            uid,
+            object.id,
+            body=pool.get('ir.model.data')
+                .get_object(cr,
+                            uid,
+                            'crm_unassigned_leads_notify',
+                            'mt_unassigned_lead')
+                .description,
+            subtype="crm_unassigned_leads_notify.mt_unassigned_lead")
+    </field>
+</record>
+
+<!-- Automated actions for new unassigned leads -->
+<record id="rule_follow" model="base.action.rule">
+    <field name="name">Add followers to unassigned lead/opportunity</field>
+    <field name="model_id" ref="crm.model_crm_lead"/>
+    <field name="active" eval="True"/>
+    <field name="sequence">10</field>
+    <field name="kind">on_create_or_write</field>
+    <field name="filter_pre_id" ref="filter_assigned"/>
+    <field name="filter_id" ref="filter_unassigned"/>
+</record>
+
+<record id="rule_notify" model="base.action.rule">
+    <field name="name">Notify unassigned lead/opportunity</field>
+    <field name="model_id" ref="crm.model_crm_lead"/>
+    <field name="active" eval="True"/>
+    <field name="sequence">20</field>
+    <field name="kind">on_create_or_write</field>
+    <field name="filter_pre_id" ref="filter_assigned"/>
+    <field name="filter_id" ref="filter_unassigned"/>
+    <field name="server_action_ids"
+           eval="[(4, ref('server_action'))]"/>
+</record>
+
+</data>
+</openerp>

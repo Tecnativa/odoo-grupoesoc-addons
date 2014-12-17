@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+# OpenERP, Open Source Management Solution
+# Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<openerp>
+<data>
+
+<!-- Action to open related projects -->
+<record id="act_res_partner_projects" model="ir.actions.act_window">
+    <field name="name">Projects</field>
+    <field name="res_model">project.project</field>
+    <field name="src_model">res.partner</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">kanban,tree,form,gantt</field>
+    <field name="domain">[('partner_id','=',active_id)]</field>
+    <field name="context">{'default_partner_id': active_id}</field>
+    <field name="groups_id" eval="[(4, ref('project.group_project_user'))]"/>
+</record>
+
+<!-- Add button to partners view -->
+<record id="res_partner_view_buttons_projects" model="ir.ui.view">
+    <field name="name">res.partner.view.buttons.projects</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form" />
+    <field name="priority" eval="20"/>
+    <field name="arch" type="xml">
+        <xpath expr="//div[@name='buttons']" position="inside">
+            <button class="oe_inline oe_stat_button"
+                    name="%(act_res_partner_projects)d"
+                    type="action"
+                    icon="fa-flask"
+                    groups="project.group_project_user">
+                <field string="Projects"
+                       name="project_count"
+                       widget="statinfo"/>
+            </button>
+        </xpath>
+    </field>
+</record>
+
+</data>
+</openerp>

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-# OpenERP, Open Source Management Solution
+# Odoo, Open Source Management Solution
 # Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 Add a field to every partner to assign somebody as administrative operator
 in charge of that partner.
 
-It can be any user from the OpenERP database.
+It can be any user from the Odoo database.
 """,
     "author": "Grupo ESOC",
     "website": "http://www.grupoesoc.es",

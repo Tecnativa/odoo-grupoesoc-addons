@@ -1,10 +1,10 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* partner_influential
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0-20140210-002654\n"
+"Project-Id-Version: Odoo Server 7.0-20140210-002654\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-20 10:42+0000\n"
 "PO-Revision-Date: 2014-02-20 11:42+0100\n"

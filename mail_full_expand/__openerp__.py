@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-# OpenERP, Open Source Management Solution
+# Odoo, Open Source Management Solution
 # Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
     "description":
 """See the message in a big window with its full content.
 
-OpenERP automatically tries to remove blockquotes and signatures from received
+Odoo automatically tries to remove blockquotes and signatures from received
 mails. That is useful because it removes lots of distraction, but sometimes it
 removes important information.
 

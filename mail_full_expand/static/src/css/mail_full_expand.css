@@ -1,4 +1,4 @@
-/* OpenERP, Open Source Management Solution
+/* Odoo, Open Source Management Solution
  * Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
  *
  * This program is free software: you can redistribute it and/or modify

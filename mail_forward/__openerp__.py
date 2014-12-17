@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-# OpenERP, Open Source Management Solution
+# Odoo, Open Source Management Solution
 # Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ Messages can be forwarded in two ways:
 - **To other contacts:**
 
   - They recieve the forwarded message according to the usual notification
-    rules of OpenERP.
+    rules of Odoo.
 
 *Technical note: Internally, forwarded messages are modified copies of
 original ones, but attachments are references to the exact originals to avoid

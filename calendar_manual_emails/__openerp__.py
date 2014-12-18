@@ -22,7 +22,7 @@
     "category": "Personal & Shared Calendar",
     "summary": "Disable automatic e-mails for event attendees",
     "description": """
-Odoo invites all attendees to any event by e-mail by default.
+Odoo invites all attendees to any event by default sending e-mails.
 
 If you don't want your customers to recieve those invitations, and prefer to
 keep your agenda private, this module is for you.

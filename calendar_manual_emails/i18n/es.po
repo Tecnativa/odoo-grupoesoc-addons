@@ -1,0 +1,49 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* calendar_manual_emails
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-562fc99\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-18 10:14+0000\n"
+"PO-Revision-Date: 2014-12-18 11:22+0100\n"
+"Last-Translator: Jairo Llopis <j.llopis@grupoesoc.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: es_ES\n"
+
+#. module: calendar_manual_emails
+#: help:calendar.event,send_emails_automatically:0
+msgid "Automatically send mails of changes produced from now on."
+msgstr ""
+"Mandar automáticamente correos electrónicos de los cambios producidos a "
+"partir de ahora."
+
+#. module: calendar_manual_emails
+#: model:ir.model,name:calendar_manual_emails.model_calendar_event
+msgid "Event"
+msgstr "Evento"
+
+#. module: calendar_manual_emails
+#: view:calendar.event:calendar_manual_emails.manual_emails
+msgid ""
+"Invitation mails will not be sent                                   "
+"automatically, so you should send them                                   "
+"manually with this button if you want."
+msgstr ""
+"Los correos electrónicos de invitación no se enviarán automáticamente, así "
+"que deberías mandarlos manualmente con este botón si quieres que se envíen."
+
+#. module: calendar_manual_emails
+#: field:calendar.event,send_emails_automatically:0
+msgid "Send e-mails automatically"
+msgstr "Enviar correos automáticamente"
+
+#. module: calendar_manual_emails
+#: view:calendar.event:calendar_manual_emails.manual_emails
+msgid "Send mails"
+msgstr "Enviar correos"

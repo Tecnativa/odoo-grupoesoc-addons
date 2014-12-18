@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Odoo, Open Source Management Solution
+Copyright (C) 2014  Grupo ESOC <www.grupoesoc.es>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<openerp>
+<data>
+
+<!-- Add checkbox to allow sending emails -->
+<record id="manual_emails" model="ir.ui.view">
+    <field name="name">Send e-mails manually</field>
+    <field name="model">calendar.event</field>
+    <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='duration']" position="before">
+                <!-- Checkbox to choose automatic e-mails -->
+                <label for="send_emails_automatically"/>
+                <div>
+                    <field name="send_emails_automatically"/>
+
+                    <!-- Button to send manual e-mails -->
+                    <button name="do_sendmail"
+                            type="object"
+                            string="Send mails"
+                            help="Invitation mails will not be sent
+                                  automatically, so you should send them
+                                  manually with this button if you want."
+                            icon="terp-mail-message-new"
+                            attrs="{'invisible': [('send_emails_automatically',
+                                                   '=',
+                                                   True)]}"
+                            class="oe_link"/>
+                </div>
+            </xpath>
+        </data>
+    </field>
+</record>
+</data>
+</openerp>

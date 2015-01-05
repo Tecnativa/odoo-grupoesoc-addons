@@ -17,11 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {
-    'name': 'Partner CNAE',
-    'version': '3.0',
-    'category': 'Customer Relationship Management',
-    'summary': 'Store CNAE code for your partner',
-    'description':
+    "name": "Partner CNAE",
+    "version": "3.0",
+    "category": "Customer Relationship Management",
+    "summary": "Store CNAE code for your partner",
+    "description":
 """
 Español
 =======
@@ -52,11 +52,11 @@ and is an official classification that Spanish enterprises use.
 
 __ codes_
 """,
-    'author': 'Grupo ESOC',
-    'website': 'http://www.grupoesoc.es',
-    'license': 'AGPL-3',
+    "author": "Grupo ESOC",
+    "website": "http://www.grupoesoc.es",
+    "license": "AGPL-3",
     "installable": True,
-    "depends": ['crm'],
+    "depends": ["crm"],
     "data": [
         "security/ir.model.access.csv",
         "data/l10n_es_partner_cnae.cnae_codes.csv",

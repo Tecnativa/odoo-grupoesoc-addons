@@ -56,8 +56,8 @@ __ codes_
     'website': 'http://www.grupoesoc.es',
     'license': 'AGPL-3',
     "installable": True,
-    "depends" : ['crm'],
-    "data" : [
+    "depends": ['crm'],
+    "data": [
         "security/ir.model.access.csv",
         "data/l10n_es_partner_cnae.cnae_codes.csv",
         "view/partner.xml",

@@ -29,10 +29,11 @@ class CNAECodes(models.Model):
     description = fields.Char("Description", required=True, size=200)
     name = fields.Char("CNAE Code and description",
                        compute="_full_name",
+                       index=True,
                        store=True)
     parent_id = fields.Many2one(_name, "Parent CNAE")
-    parent_left = fields.Integer("Left parent")
-    parent_right = fields.Integer("Right parent")
+    parent_left = fields.Integer("Left parent", index=True)
+    parent_right = fields.Integer("Right parent", index=True)
     child_ids = fields.One2many(_name, "parent_id", "Child CNAE")
 
     _sql_constraints = [

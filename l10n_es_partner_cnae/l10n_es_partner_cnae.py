@@ -16,61 +16,44 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from openerp.osv import fields, orm
+from openerp import api, fields, models
 
-class cnae_codes(orm.Model):
+
+class CNAECodes(models.Model):
     """Store all CNAE codes."""
 
     _name = "l10n_es_partner_cnae.cnae_codes"
     _parent_store = True
 
-    def _full_name(self, cr, uid, ids, field_name, arg, context=None):
-        """Get CNAE code and name together."""
-
-        result = {}
-        for obj in self.browse(cr, uid, ids, context=context):
-            result[obj.id] = "%s - %s" % (obj.code, obj.description)
-
-        return result
-
-    def _recalculate(self, cr, uid, ids, context=None):
-        """Recalculate all records changed in this model."""
-
-        return ids
-
-    _columns = {
-        "code": fields.char("Code", required=True, size=5),
-        "description": fields.char("Description", required=True, size=200),
-        "name": fields.function(
-            _full_name,
-            readonly=True,
-            string="CNAE Code and description",
-            store={_name: (_recalculate, ["code", "description"], 10)},
-            type="char"),
-        "parent_id": fields.many2one(_name, "Parent CNAE"),
-        "parent_left": fields.integer("Left parent"),
-        "parent_right": fields.integer("Right parent"),
-        "child_ids": fields.one2many(_name, "parent_id"),
-    }
+    code = fields.Char("Code", required=True, size=5)
+    description = fields.Char("Description", required=True, size=200)
+    name = fields.Char("CNAE Code and description",
+                       compute="_full_name",
+                       store=True)
+    parent_id = fields.Many2one(_name, "Parent CNAE")
+    parent_left = fields.Integer("Left parent")
+    parent_right = fields.Integer("Right parent")
+    child_ids = fields.One2many(_name, "parent_id", "Child CNAE")
 
     _sql_constraints = [
-        ("code_unique",
-         "unique(code)",
-         "CNAE codes must be unique"),
+        ("code_unique", "unique(code)", "CNAE codes must be unique"),
     ]
 
-class l10n_es_partner_cnae(orm.Model):
-    """Add CNAE field to all partners.
+    @api.one
+    @api.depends("code", "description")
+    def _full_name(self):
+        """Get CNAE code and name together."""
 
-    A parnter can only have one of the bottom-level CNAE (those with a
-    code of 5 characters).
-    """
+        return "%s - %s" % (self.code, self.description)
 
-    _name = _inherit = "res.partner"
 
-    _columns = {
-        "cnae_id": fields.many2one(
-            "l10n_es_partner_cnae.cnae_codes",
-            domain="[('code', '=ilike', '_____')]",
-            string="CNAE Code"),
-    }
+class PartnerCNAE(models.Model):
+    """Add CNAE field to all partners."""
+
+    _inherit = "res.partner"
+
+    cnae_id = fields.Many2one(
+        CNAECodes._name,
+        "CNAE Code",
+        domain=[('code', '=ilike', '_____')], # Only 5-digit codes
+        help="CNAE code assigned to this partner.")

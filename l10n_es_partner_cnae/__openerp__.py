@@ -18,7 +18,7 @@
 
 {
     "name": "Partner CNAE",
-    "version": "3.0",
+    "version": "4.0",
     "category": "Customer Relationship Management",
     "summary": "Store CNAE code for your partner",
     "description":

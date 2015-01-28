@@ -73,12 +73,18 @@ class MailComposeForward(orm.TransientModel):
                  "open it from the message itself."),
 
         # Override static relation table names in mail.compose.message
-        'partner_ids': fields.many2many(
-            'res.partner',
-            string='Additional contacts'),
-        'attachment_ids': fields.many2many(
-            'ir.attachment',
-            string='Attachments'),
+        "partner_ids": fields.many2many(
+            "res.partner",
+            "mail_compose_forward_res_partner_rel",
+            "wizard_id",
+            "partner_id",
+            "Additional Contacts"),
+        "attachment_ids": fields.many2many(
+            "ir.attachment",
+            "mail_compose_forward_ir_attachments_rel",
+            "wizard_id",
+            "attachment_id",
+            "Attachments"),
     }
 
     def default_get(self, cr, uid, fields, context=None):

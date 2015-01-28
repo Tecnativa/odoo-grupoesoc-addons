@@ -50,10 +50,10 @@ class MailComposeForward(orm.TransientModel):
         """
 
         context = dict(context) if context else dict()
-        model_pool = self.pool.get('ir.model')
+        model_pool = self.pool.get("ir.model")
         model_ids = model_pool.search(
             cr, uid,
-            [('model', 'in', context.get("model_list", self._models))],
+            [("model", "in", context.get("model_list", self._models))],
             order="name", context=context)
         model_objs = model_pool.browse(cr, uid, model_ids, context=context)
         return [(m.model, m.name) for m in model_objs]

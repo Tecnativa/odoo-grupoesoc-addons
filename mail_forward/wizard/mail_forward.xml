@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <record id="compose_form" model="ir.ui.view">
     <field name="name">Forward Email Form</field>
-    <field name="model">mail.compose.forward</field>
+    <field name="model">mail_forward.compose.message</field>
     <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
     <field name="arch" type="xml">
         <data>
@@ -38,12 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <xpath expr="//label[@for='partner_ids']" position="before">
                 <!-- Object where the message will be attached -->
                 <field
-                    name="destination_object_id"
                     attrs="{
                         'required': [('partner_ids', '=', [[6, False, []]])]}"
-                    on_change="onchange_destination_object_id(
-                        destination_object_id,
-                        context)"/>
+                    name="destination_object_id"/>
 
                 <!-- If the message has attachments, should we move them to the
                      new object? -->
@@ -69,7 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <record id="compose_action" model="ir.actions.act_window">
     <field name="name">Forward Email</field>
-    <field name="res_model">mail.compose.forward</field>
+    <field name="res_model">mail_forward.compose.message</field>
     <field name="src_model">mail.message</field>
     <field name="type">ir.actions.act_window</field>
     <field name="view_id" ref="compose_form"/>

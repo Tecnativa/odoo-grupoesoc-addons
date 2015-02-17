@@ -16,18 +16,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from openerp.osv import fields, orm
+from openerp import api, fields, models
 
 
-class MailComposeForward(orm.TransientModel):
+class MailForwardComposeMessage(models.TransientModel):
     """Allow forwarding a message.
 
     It duplicates the message and optionally attaches it to another object
     of the database and sends it to another recipients than the original one.
     """
 
-    _name = "mail.compose.forward"
-    _inherit = "mail.compose.message"
+    _name = "mail_forward.compose.message"
+    _inherits = {"mail.compose.message": "original_wizard_id"}
 
     _models = [
         "crm.lead",
@@ -42,52 +42,8 @@ class MailComposeForward(orm.TransientModel):
         "sale.order",
     ]
 
-    def models(self, cr, uid, context=None):
-        """Get allowed models and their names.
-
-        It searches for the models on the database, so if modules are not
-        installed, models will not be shown.
-        """
-
-        context = dict(context) if context else dict()
-        model_pool = self.pool.get("ir.model")
-        model_ids = model_pool.search(
-            cr, uid,
-            [("model", "in", context.get("model_list", self._models))],
-            order="name", context=context)
-        model_objs = model_pool.browse(cr, uid, model_ids, context=context)
-        return [(m.model, m.name) for m in model_objs]
-
-    _columns = {
-        "destination_object_id": fields.reference(
-            "Destination object",
-            selection=models,
-            size=128,
-            help="Object where the forwarded message will be attached"),
-        "move_attachments": fields.boolean(
-            "Move attachments",
-            help="Attachments will be assigned to the chosen destination "
-                 "object and you will be able to pick them from its "
-                 "'Attachments' button, but they will not be there for "
-                 "the current object if any. In any case you can always "
-                 "open it from the message itself."),
-
-        # Override static relation table names in mail.compose.message
-        "partner_ids": fields.many2many(
-            "res.partner",
-            "mail_compose_forward_res_partner_rel",
-            "wizard_id",
-            "partner_id",
-            "Additional Contacts"),
-        "attachment_ids": fields.many2many(
-            "ir.attachment",
-            "mail_compose_forward_ir_attachments_rel",
-            "wizard_id",
-            "attachment_id",
-            "Attachments"),
-    }
-
-    def default_get(self, cr, uid, fields, context=None):
+    @api.model
+    def default_get(self, fields):
         """Fix default values.
 
         Sometimes :meth:`openerp.addons.mail.mail_compose_message
@@ -98,57 +54,79 @@ class MailComposeForward(orm.TransientModel):
         This method fixes that by getting it from the context if available.
         """
 
-        context = dict(context) if context else dict()
+        result = self.original_wizard_id.default_get(fields)
 
-        result = super(MailComposeForward, self).default_get(
-            cr, uid, fields, context)
-
-        if "subject" in result and "default_subject" in context:
-            result["subject"] = context["default_subject"]
+        if "subject" in result and "default_subject" in self.env.context:
+            result["subject"] = self.env.context["default_subject"]
 
         return result
 
-    def onchange_destination_object_id(self, cr, uid, ids,
-                                       destination_object_id, context=None):
+    @api.model
+    def models(self):
+        """Get allowed models and their names.
+
+        It searches for the models on the database, so if modules are not
+        installed, models will not be shown.
+        """
+
+        model_objs = self.env["ir.model"].search(
+            [("model", "in", self.env.context.get("model_list",
+                                                  self._models))],
+            order="name")
+        return [(m.model, m.name) for m in model_objs]
+
+    @api.one
+    @api.onchange("destination_object_id")
+    def change_destination_object(self):
         """Update some fields for the new message."""
 
-        context = dict(context) if context else dict()
-        model = res_id = res_name = False
+        if self.destination_object_id:
+            self.model = self.destination_object_id._name
+            self.res_id = self.destination_object_id.id
 
-        if destination_object_id:
-            model, res_id = destination_object_id.split(",")
-            res_id = int(res_id)
-
-            context["model_list"] = context.get("model_list", [model])
-            model_name = dict(self.models(cr, uid, context=context)).get(model)
-            res_name = (self.pool.get(model)
-                        .name_get(cr, uid, res_id, context=context)[0][1])
+            model_name = (self.env["ir.model"]
+                          .search([("model", "=", self.model)])
+                          .name)
+            record_name = self.destination_object_id.name_get()[0][1]
             if model_name:
-                res_name = "%s %s" % (model_name, res_name)
+                record_name = "%s %s" % (model_name, record_name)
 
-        return {"value": {"model": model,
-                          "res_id": res_id,
-                          "record_name": res_name}}
+            self.record_name = record_name
+        else:
+            self.model = self.res_id = self.record_name = False
 
-    def send_mail(self, cr, uid, ids, context=None):
+    @api.one
+    def send_mail(self):
         """Send mail and execute the attachment relocation if needed."""
 
-        # Let the parent do de hard work
-        result = super(MailComposeForward, self).send_mail(
-            cr, uid, ids, context=context)
+        # Let the original wizard do de hard work
+        result = self.original_wizard_id.send_mail()
 
         # Relocate attachments if needed
-        att_pool = self.pool.get("ir.attachment")
-        for wz in self.browse(cr, uid, ids, context=context):
-            if (wz.move_attachments and
-                    wz.model and
-                    wz.res_id and
-                    wz.attachment_ids):
-                att_pool.write(
-                    cr,
-                    uid,
-                    [att.id for att in wz.attachment_ids],
-                    {"res_model": wz.model, "res_id": wz.res_id},
-                    context=context)
+        if (self.move_attachments and
+                self.model and
+                self.res_id and
+                self.attachment_ids):
+            for attachment in self.attachment_ids:
+                attachment.res_model = self.model
+                attachment.res_id = self.res_id
 
         return result
+
+    destination_object_id = fields.Reference(
+        models,
+        "Destination object",
+        help="Object where the forwarded message will be attached")
+
+    move_attachments = fields.Boolean(
+        "Move attachments",
+        help="Attachments will be assigned to the chosen destination "
+             "object and you will be able to pick them from its "
+             "'Attachments' button, but they will not be there for "
+             "the current object if any. In any case you can always "
+             "open it from the message itself.")
+
+    original_wizard_id = fields.Many2one(
+        "mail.compose.message",
+        "Original message compose wizard",
+        delegate=True)

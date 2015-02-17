@@ -18,7 +18,7 @@
 
 {
     "name": "Message Forward",
-    "version": "5.0",
+    "version": "6.0",
     "category": "Social Network",
     "author": "Grupo ESOC",
     "license": "AGPL-3",

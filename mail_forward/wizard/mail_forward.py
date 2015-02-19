@@ -129,4 +129,6 @@ class MailForwardComposeMessage(models.TransientModel):
     original_wizard_id = fields.Many2one(
         "mail.compose.message",
         "Original message compose wizard",
-        delegate=True)
+        delegate=True,
+        ondelete="cascade",
+        required=True)

@@ -27,7 +27,7 @@ class TestSeatsPerRegistrationLimits(TransactionCase):
     def setUp(self):
         """Create a dummy event to work with."""
 
-        super(__class__, self).setUp()
+        super(TestSeatsPerRegistrationLimits, self).setUp()
 
         self._event = self.env["event.event"].create(
             {"name": "Test",

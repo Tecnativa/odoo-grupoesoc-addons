@@ -34,6 +34,11 @@ class TestSeatsPerRegistrationLimits(TransactionCase):
              "date_begin": datetime.now(),
              "date_end": datetime.now()})
 
+        # Used when creating event.registration records
+        self._registrations = self.env["event.registration"].with_context(
+            active_id=self._event.id,
+            default_event_id=self._event.id)
+
     def test_less_than_one_participant(self):
         with self.assertRaises(e.NeedAtLeastOneParticipant):
             self._event.seats_per_registration_min = 0
@@ -50,25 +55,25 @@ class TestSeatsPerRegistrationLimits(TransactionCase):
 
     def test_previous_registrations_fail_min(self):
         with self.assertRaises(e.PreviousRegistrationsFail):
-            self._event.registration_ids.create({"nb_register": 10})
+            self._registrations.create({"nb_register": 10})
             self._event.seats_per_registration_min = 11
 
     def test_previous_registrations_fail_max(self):
         with self.assertRaises(e.PreviousRegistrationsFail):
-            self._event.registration_ids.create({"nb_register": 10})
+            self._registrations.create({"nb_register": 10})
             self._event.seats_per_registration_max = 9
 
     def test_too_few_participants(self):
         with self.assertRaises(e.TooFewParticipants):
             self._event.seats_per_registration_min = 10
-            self._event.registration_ids.create({"nb_register": 9})
+            self._registrations.create({"nb_register": 9})
 
     def test_too_many_participants(self):
         with self.assertRaises(e.TooManyParticipants):
             self._event.seats_per_registration_max = 10
-            self._event.registration_ids.create({"nb_register": 11})
+            self._registrations.create({"nb_register": 11})
 
     def test_default_seats(self):
         self._event.seats_per_registration_min = 10
-        registration = self._event.registration_ids.create()
+        registration = self._registrations.create({})
         self.assertEqual(10, registration.nb_register, "Bad default value")

@@ -18,7 +18,7 @@
 
 {
     "name": "Seats per registration in events",
-    "version": "1.0",
+    "version": "1.1",
     "category": "Tools",
     "author": "Grupo ESOC",
     "license": "AGPL-3",

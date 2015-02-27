@@ -16,7 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from openerp import _, api, exceptions, fields, models
+from openerp import _, api, fields, models
+from . import exceptions
 
 
 class Event(models.Model):
@@ -44,30 +45,22 @@ class Event(models.Model):
         """Ensure you are not setting an invalid maximum."""
 
         if self.seats_per_registration_min < 1:
-            raise exceptions.ValidationError(
-                _("You need at least one participant per registration."))
+            raise exceptions.NeedAtLeastOneParticipant()
 
         if self.seats_per_registration_max != 0:
             if (self.seats_per_registration_max <
                     self.seats_per_registration_min):
-                raise exceptions.ValidationError(
-                    _("The maximum of participants per registration cannot be "
-                      "smaller than the minimum."))
+                raise exceptions.MaxSmallerThanMin()
 
         if self.seats_max != 0:
             if self.seats_per_registration_max > self.seats_max:
-                raise exceptions.ValidationError(
-                    _("The maximum of participants per registration "
-                      "cannot be bigger than the maximum of participants "
-                      "for this event."))
+                raise exceptions.MaxPerRegisterBiggerThanMaxPerEvent()
 
         try:
             self.registration_ids._check_seats_per_registration_limits()
-        except exceptions.ValidationError as error:
-            raise exceptions.ValidationError(
-                _("There are already registrations that don't fit in the "
-                  "new limits of participants per registration. Change them "
-                  "before setting the limits."))
+        except exceptions.SeatsPerRegistrationError as error:
+            raise exceptions.PreviousRegistrationsFail(error)
+
 
 class EventRegistration(models.Model):
     """Event registrations must force the limits imposed in the event."""
@@ -81,14 +74,12 @@ class EventRegistration(models.Model):
 
         if self.event_id.seats_per_registration_max != 0:
             if self.nb_register > self.event_id.seats_per_registration_max:
-                raise exceptions.ValidationError(
-                    _("You cannot register more than %d participants.") %
-                        self.event_id.seats_per_registration_max)
+                raise exceptions.TooManyParticipants(
+                    self.event_id.seats_per_registration_max)
 
         if self.nb_register < self.event_id.seats_per_registration_min:
-            raise exceptions.ValidationError(
-                _("You cannot register less than %d participants.") %
-                    self.event_id.seats_per_registration_min)
+            raise exceptions.TooFewParticipants(
+                self.event_id.seats_per_registration_min)
 
     def _default_seats(self):
         """Set the default number of participants per registration."""

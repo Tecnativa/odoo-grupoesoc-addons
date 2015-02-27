@@ -20,6 +20,8 @@ from openerp import _, api, exceptions, fields, models
 
 
 class Event(models.Model):
+    """Events enhaced with participants per registration limits."""
+
     _inherit = "event.event"
 
     seats_per_registration_max = fields.Integer(
@@ -68,6 +70,8 @@ class Event(models.Model):
                   "before setting the limits."))
 
 class EventRegistration(models.Model):
+    """Event registrations must force the limits imposed in the event."""
+
     _inherit = "event.registration"
 
     @api.one

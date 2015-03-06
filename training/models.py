@@ -73,7 +73,7 @@ class Duration(models.Model):
     def check_right_duration_types(self):
         """Check that the hour types are the right ones."""
 
-        expected_types = (self.action_id.action_type_id
+        expected_types = (self.action_id.type_id
                           .expected_duration_type_ids)
 
         if expected_types and self.type_id not in expected_types:

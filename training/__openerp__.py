@@ -18,7 +18,7 @@
 
 {
     "name": "Training",
-    "version": "0.1",
+    "version": "0.2",
     "category": "Project",
     "author": "Grupo ESOC",
     "license": "AGPL-3",
@@ -69,8 +69,8 @@ All these things can be configured as you wish.
     "data": [
         "views/menus.xml",
         "views/event.xml",
-        "views/hour_type.xml",
-        "views/training_action.xml",
-        "views/training_type.xml",
+        "views/action_type.xml",
+        "views/action.xml",
+        "views/duration_type.xml",
     ],
 }

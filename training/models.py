@@ -24,66 +24,69 @@ from . import exceptions
 _D = "training.%s"
 
 
-class HourType(models.Model):
-    """Types of the expected hours for training actions.
+class DurationType(models.Model):
+    """Types of the training actions' durations.
 
-    See docs for :class:`~.TrainingType`.
+    See docs for :class:`~.ActionType`.
     """
 
-    _name = _D % "hour_type"
+    _name = _D % "duration_type"
 
     name = fields.Char(required=True, index=True, translate=True)
 
-    expected_hours_ids = fields.One2many(
-        _D % "expected_hours",
-        "hour_type_id",
-        "Epected hours of this type in training actions")
+    duration_ids = fields.One2many(
+        _D % "duration",
+        "type_id",
+        "Epected hours of this type",
+        help="Expected hours of this type defined in training actions.")
 
     # Need to specify relation name to avoid exceeding the limit of 63
     # characters in PostgreSQL names
-    training_type_ids = fields.Many2many(
-        _D % "training_type",
-        relation="training_action_type_hours_rel",
-        string="Training types",
-        help="Training types that expect this hour type.")
+    action_type_ids = fields.Many2many(
+        _D % "action_type",
+        relation="training_action_type_training_duration_rel",
+        string="Training action types",
+        help="Training action types that expect this hour type.")
 
     _sql_constraints = [("unique_name",
                          "UNIQUE(name)",
                          "Name must be unique.")]
 
 
-class ExpectedHours(models.Model):
-    _name = _D % "expected_hours"
+class Duration(models.Model):
+    _name = _D % "duration"
 
-    expected_hours = fields.Float(default=0, required=True)
+    duration = fields.Float(default=0, required=True)
 
-    hour_type_id = fields.Many2one(
-        _D % "hour_type",
-        "Hour type",
+    type_id = fields.Many2one(
+        _D % "duration_type",
+        "Type of hours",
         required=True)
 
-    training_action_id = fields.Many2one(
-        _D % "training_action",
+    action_id = fields.Many2one(
+        _D % "action",
         "Training action",
         required=True)
 
     @api.one
-    @api.constrains("hour_type_id", "training_action_id")
-    def check_right_hour_types(self):
+    @api.constrains("type_id", "action_id")
+    def check_right_duration_types(self):
         """Check that the hour types are the right ones."""
 
-        expected_types = (self.training_action_id.training_type_id
-                          .expected_hour_type_ids)
+        expected_types = (self.action_id.action_type_id
+                          .expected_duration_type_ids)
 
-        if expected_types and self.hour_type_id not in expected_types:
-            raise exceptions.WrongHourType(self.hour_type_id, expected_types)
+        if expected_types and self.type_id not in expected_types:
+            raise exceptions.WrongDurationType(
+                self.type_id,
+                expected_types)
 
     _sql_constraints = [("training_vs_hours_unique",
-                         "UNIQUE(hour_type_id, training_action_id)",
+                         "UNIQUE(type_id, action_id)",
                          "Cannot repeat the hour type in a training action.")]
 
 
-class TrainingType(models.Model):
+class ActionType(models.Model):
     """Types of training actions.
 
     Depending on the training action type, a training action may expect some
@@ -96,15 +99,21 @@ class TrainingType(models.Model):
     You can configure it as you wish.
     """
 
-    _name = _D % "training_type"
+    _name = _D % "action_type"
 
     name = fields.Char(required=True, index=True, translate=True)
 
+    action_ids = fields.One2many(
+        _D % "action",
+        "type_id",
+        "Training actions",
+        help="Training actions of this type.")
+
     # Need to specify relation name to avoid exceeding the limit of 63
     # characters in PostgreSQL names
-    expected_hour_type_ids = fields.Many2many(
-        _D % "hour_type",
-        relation="training_action_type_hours_rel",
+    expected_duration_type_ids = fields.Many2many(
+        _D % "duration_type",
+        relation="training_action_type_duration_type_rel",
         string="Expected hour types",
         help="These types of hours are expected in this type of training "
              "action. For example, a training of type 'mixed' may expect "
@@ -115,7 +124,7 @@ class TrainingType(models.Model):
                          "Name must be unique.")]
 
 
-class TrainingAction(models.Model):
+class Action(models.Model):
     """Define training actions.
 
     A training action is one course that your company teaches and has in its
@@ -125,40 +134,40 @@ class TrainingAction(models.Model):
     fulfill. Events linked to training actions are considered training groups.
     """
 
-    _name = _D % "training_action"
+    _name = _D % "action"
 
     name = fields.Char(required=True, index=True, translate=True)
 
-    training_type_id = fields.Many2one(
-        _D % "training_type",
+    type_id = fields.Many2one(
+        _D % "action_type",
         "Training type")
 
-    expected_hours_ids = fields.One2many(
-        _D % "expected_hours",
-        "training_action_id",
+    duration_ids = fields.One2many(
+        _D % "duration",
+        "action_id",
         "Expected hours",
         help="Expected duration of each type of hours for these training "
              "groups.")
 
-    @api.onchange("training_type_id")
-    def fulfill_expected_hour_types(self):
+    @api.onchange("type_id")
+    def fulfill_expected_duration_types(self):
         """When choosing a type of training action, fulfill the expected hours.
 
         There will be 0 hours of each type by default.
         """
 
         # Remove invalid hour expectations
-        valid_hour_types = self.training_type_id.expected_hour_type_ids
-        for expected_hours in self.expected_hours_ids:
-            if expected_hours.hour_type_id not in valid_hour_types:
-                self.expected_hours_ids -= expected_hours
+        valid_duration_types = self.type_id.expected_duration_type_ids
+        for duration in self.duration_ids:
+            if duration.duration_type_id not in valid_duration_types:
+                self.duration_ids -= duration
 
         # Add new hour expectations
-        current_hour_types = self.mapped("expected_hours_ids.hour_type_id")
-        for hour_type in self.training_type_id.expected_hour_type_ids:
-            if hour_type not in current_hour_types:
-                self.expected_hours_ids |= self.expected_hours_ids.new(
-                    {"hour_type_id": hour_type.id})
+        current_duration_types = self.mapped("duration_ids.type_id")
+        for duration_type in self.type_id.expected_duration_type_ids:
+            if duration_type not in current_duration_types:
+                self.duration_ids |= self.duration_ids.new(
+                    {"duration_type_id": duration_type.id})
 
 
 class Event(models.Model):
@@ -171,7 +180,7 @@ class Event(models.Model):
     _inherit = "event.event"
 
     training_action_id = fields.Many2one(
-        _D % "training_action",
+        _D % "action",
         "Training action",
         help="Training action of this event, if it is a course.")
 

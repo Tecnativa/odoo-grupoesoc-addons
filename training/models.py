@@ -161,7 +161,8 @@ class Action(models.Model):
         for duration_type in self.type_id.expected_duration_type_ids:
             if duration_type not in current_duration_types:
                 self.duration_ids |= self.duration_ids.new(
-                    {"duration_type_id": duration_type.id})
+                    {"action_id": self,
+                     "type_id": duration_type})
 
 
 class Event(models.Model):

@@ -40,11 +40,8 @@ class DurationType(models.Model):
         "Epected hours of this type",
         help="Expected hours of this type defined in training actions.")
 
-    # Need to specify relation name to avoid exceeding the limit of 63
-    # characters in PostgreSQL names
     action_type_ids = fields.Many2many(
         _D % "action_type",
-        relation="training_action_type_training_duration_rel",
         string="Training action types",
         help="Training action types that expect this hour type.")
 
@@ -109,11 +106,8 @@ class ActionType(models.Model):
         "Training actions",
         help="Training actions of this type.")
 
-    # Need to specify relation name to avoid exceeding the limit of 63
-    # characters in PostgreSQL names
     expected_duration_type_ids = fields.Many2many(
         _D % "duration_type",
-        relation="training_action_type_duration_type_rel",
         string="Expected hour types",
         help="These types of hours are expected in this type of training "
              "action. For example, a training of type 'mixed' may expect "

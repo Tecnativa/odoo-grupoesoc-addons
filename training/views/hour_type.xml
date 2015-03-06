@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Odoo, Open Source Management Solution
+Copyright (C) 2014-2015  Grupo ESOC <www.grupoesoc.es>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<openerp>
+<data>
+
+<!-- Views -->
+<record id="hour_type_tree" model="ir.ui.view">
+    <field name="name">Training action hour type tree</field>
+    <field name="model">training.hour_type</field>
+    <field name="arch" type="xml">
+        <tree editable="top">
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="hour_type_form" model="ir.ui.view">
+    <field name="name">Training action hour type form</field>
+    <field name="model">training.hour_type</field>
+    <field name="arch" type="xml">
+        <form>
+            <header/>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="expected_hours_ids">
+                        <tree editable="top">
+                            <field name="training_action_id"/>
+                            <field name="expected_hours" widget="float_time"/>
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- Actions -->
+<record id="open_hour_type_view" model="ir.actions.act_window">
+    <field name="name">Open hour type view</field>
+    <field name="res_model">training.hour_type</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+            Click to add a new hour type.
+        </p>
+        <p>
+            Hour types are used when creating training types. A training type
+            "online" may require "online" hours, but a training type "mixed"
+            may require both "online" and "on-site" hours.
+        </p>
+    </field>
+</record>
+
+<!-- Menus -->
+<menuitem id="hour_type_menu"
+          parent="catalog_menu"
+          name="Hour types"
+          action="open_hour_type_view"/>
+
+</data>
+</openerp>

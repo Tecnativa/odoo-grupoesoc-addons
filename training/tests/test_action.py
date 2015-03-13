@@ -28,7 +28,7 @@ class ActionOnChangeTypeFulfillExpectedDurationTypesCase(BaseCase):
 
     create_method = "new"
 
-    def tearDown(self):
+    def tearDown(self, *args, **kwargs):
         """All tests end checking that the fulfill was right."""
 
         # Set the action's type
@@ -40,6 +40,9 @@ class ActionOnChangeTypeFulfillExpectedDurationTypesCase(BaseCase):
         # Check that it was fulfilled right
         self.assertEqual(set(self.action.mapped("duration_ids.type_id.name")),
                          set(self.duration_types_good.mapped("name")))
+
+        (super(ActionOnChangeTypeFulfillExpectedDurationTypesCase, self)
+         .tearDown(*args, **kwargs))
 
     def test_when_empty(self):
         """When training action has no duration records at all."""

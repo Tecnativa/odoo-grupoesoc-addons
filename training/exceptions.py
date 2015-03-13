@@ -25,14 +25,7 @@ class TrainingActionValidationError(exceptions.ValidationError):
         self.name = _("Error(s) with the training action.")
 
 
-class TrainingActionEmpty(TrainingActionValidationError):
-    def __init__(self,
-                 value=_("The current event type is a training, but no "
-                         "training action is set.")):
-        super(NeedAtLeastOneParticipant, self).__init__(value)
-
-
-class WrongHourType(TrainingActionValidationError):
+class WrongDurationType(TrainingActionValidationError):
     def __init__(self,
                  invalid_hour_type,
                  valid_hour_types,
@@ -42,4 +35,4 @@ class WrongHourType(TrainingActionValidationError):
         self.valid_hour_types = valid_hour_types
         value = value % (invalid_hour_type.name,
                          ", ".join(valid_hour_types.mapped("name")))
-        super(WrongHourType, self).__init__(value)
+        super(WrongDurationType, self).__init__(value)

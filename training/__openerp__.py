@@ -18,7 +18,7 @@
 
 {
     "name": "Training",
-    "version": "0.4",
+    "version": "0.5",
     "category": "Project",
     "author": "Grupo ESOC",
     "license": "AGPL-3",
@@ -67,6 +67,8 @@ All these things can be configured as you wish.
         "event",
     ],
     "data": [
+        "security/training.xml",
+        "security/ir.model.access.csv",
         "views/menus.xml",
         "views/event.xml",
         "views/action_type.xml",

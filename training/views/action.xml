@@ -92,6 +92,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Menus -->
 <menuitem id="actions_menu"
           parent="catalog_menu"
+          groups="user_group"
           name="Actions"
           action="open_actions_view"/>
 

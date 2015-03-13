@@ -73,6 +73,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Menus -->
 <menuitem id="duration_type_menu"
           parent="configuration_menu"
+          groups="base.group_no_one,manager_group"
           name="Hour types"
           action="open_duration_type_view"/>
 

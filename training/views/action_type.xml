@@ -80,6 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Menus -->
 <menuitem id="action_types_menu"
           parent="configuration_menu"
+          groups="base.group_no_one,manager_group"
           name="Training action types"
           action="open_action_types_view"/>
 

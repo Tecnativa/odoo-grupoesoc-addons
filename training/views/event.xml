@@ -89,6 +89,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <menuitem id="training_groups_menu"
           parent="catalog_menu"
+          groups="user_group"
           name="Groups"
           action="open_training_groups_view"/>
 

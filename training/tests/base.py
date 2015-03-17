@@ -84,3 +84,20 @@ class BaseCase(TransactionCase):
             {"name": "Dummy tutuor 2"})
 
         self.tutors = tutor_1 | tutor_2
+
+        self.manager = self.create(
+            "res.users",
+            {"name": "Manager user",
+             "login": "manager_user"})
+        self.manager.groups_id |= self.env.ref("training.manager_group")
+
+        self.user = self.create(
+            "res.users",
+            {"name": "Training user",
+             "login": "training_user"})
+        self.user.groups_id |= self.env.ref("training.user_group")
+
+        self.unprivileged = self.create(
+            "res.users",
+            {"name": "Mr. Nobody",
+             "login": "unprivileged"})

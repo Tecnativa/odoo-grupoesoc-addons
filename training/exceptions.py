@@ -29,10 +29,12 @@ class WrongDurationType(TrainingActionValidationError):
     def __init__(self,
                  invalid_hour_type,
                  valid_hour_types,
-                 value=_("Hour type '%s' is not among the valid ones "
-                         "defined in the training type (%s).")):
+                 value=_("Hour type '%(hour_type)s' is not among the valid "
+                         "ones defined in the training type "
+                         "(%(training_type)s).")):
         self.invalid_hour_type = invalid_hour_type
         self.valid_hour_types = valid_hour_types
-        value = value % (invalid_hour_type.name,
-                         ", ".join(valid_hour_types.mapped("name")))
+        value = value % {"hour_type": invalid_hour_type.name,
+                         "training_type": ", ".join(valid_hour_types
+                                                    .mapped("name"))}
         super(WrongDurationType, self).__init__(value)

@@ -177,7 +177,7 @@ class Event(models.Model):
     training_action_id = fields.Many2one(
         _D % "action",
         "Training action",
-        help="Training action of this event, if it is a course.")
+        help="Training action of this event, if it is a training group.")
 
     tutor_ids = fields.Many2many(
         "res.partner",

@@ -37,7 +37,7 @@ class DurationType(models.Model):
     duration_ids = fields.One2many(
         _D % "duration",
         "type_id",
-        "Epected hours of this type",
+        "Expected hours of this type",
         help="Expected hours of this type defined in training actions.")
 
     action_type_ids = fields.Many2many(

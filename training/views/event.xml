@@ -50,23 +50,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <field name="model">event.event</field>
     <field name="inherit_id" ref="event.view_event_search"/>
     <field name="arch" type="xml">
-        <xpath expr="//group[@string='Group By']" position="before">
-            <separator/>
-            <!-- Search by training action -->
-            <field name="training_action_id"/>
+        <data>
+            <xpath expr="//group[@string='Group By']" position="before">
+                <separator/>
+                <!-- Search by training action -->
+                <field name="training_action_id"/>
 
-            <!-- Show only training groups -->
-            <filter name="training_groups"
-                    string="Training groups"
-                    help="Show only events considered training groups"
-                    domain="[('training_action_id', '!=', False)]"/>
-        </xpath>
-        <xpath expr="//group[@string='Group By']">
-            <!-- Goup by training action -->
-            <filter string="Training action"
-                    help="Group event by training action"
-                    context="{'group_by': 'training_action_id'}"/>
-        </xpath>
+                <!-- Show only training groups -->
+                <filter name="training_groups"
+                        string="Training groups"
+                        help="Show only events considered training groups"
+                        domain="[('training_action_id', '!=', False)]"/>
+            </xpath>
+            <xpath expr="//group[@string='Group By']">
+                <!-- Goup by training action -->
+                <filter string="Training action"
+                        help="Group event by training action"
+                        context="{'group_by': 'training_action_id'}"/>
+            </xpath>
+        </data>
     </field>
 </record>
 

@@ -18,7 +18,6 @@
 
 from datetime import datetime
 from openerp.tests.common import TransactionCase
-from .. import exceptions as e
 from ..models import _D
 
 

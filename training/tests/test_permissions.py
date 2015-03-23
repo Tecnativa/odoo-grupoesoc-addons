@@ -20,7 +20,6 @@
 
 
 from . import test_permissions_bases as b
-from openerp import exceptions as e
 from openerp.tests.common import at_install
 
 

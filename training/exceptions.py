@@ -19,13 +19,13 @@
 from openerp import _, exceptions
 
 
-class TrainingActionValidationError(exceptions.ValidationError):
+class TrainingValidationError(exceptions.ValidationError):
     def __init__(self, value):
-        super(TrainingActionValidationError, self).__init__(value)
-        self.name = _("Error(s) with the training action.")
+        super(TrainingValidationError, self).__init__(value)
+        self.name = _("Error(s) with the training data.")
 
 
-class WrongDurationType(TrainingActionValidationError):
+class WrongDurationType(TrainingValidationError):
     def __init__(self,
                  invalid_hour_type,
                  valid_hour_types,

@@ -18,7 +18,7 @@
 
 {
     "name": "Training",
-    "version": "1.2",
+    "version": "1.3",
     "category": "Project",
     "author": "Grupo ESOC",
     "license": "AGPL-3",
@@ -74,5 +74,12 @@ All these things can be configured as you wish.
         "views/action_type.xml",
         "views/action.xml",
         "views/duration_type.xml",
+    ],
+    "demo": [
+        "demo/training.duration_type.csv",
+        "demo/training.action_type.csv",
+        "demo/training.action.csv",
+        "demo/training.duration.csv",
+        "demo/event.event.csv",
     ],
 }

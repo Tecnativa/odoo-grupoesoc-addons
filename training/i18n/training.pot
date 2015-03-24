@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150225\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-18 10:39+0000\n"
-"PO-Revision-Date: 2015-03-18 10:39+0000\n"
+"POT-Creation-Date: 2015-03-24 10:33+0000\n"
+"PO-Revision-Date: 2015-03-24 10:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr ""
 #. module: training
 #: code:addons/training/exceptions.py:25
 #, python-format
-msgid "Error(s) with the training action."
+msgid "Error(s) with the training data."
 msgstr ""
 
 #. module: training
@@ -227,6 +227,11 @@ msgid "Manager"
 msgstr ""
 
 #. module: training
+#: model:training.action_type,name:training.action_type_mixed
+msgid "Mixed"
+msgstr ""
+
+#. module: training
 #: field:training.action,name:0
 #: field:training.action_type,name:0
 #: field:training.duration_type,name:0
@@ -237,6 +242,33 @@ msgstr ""
 #: sql_constraint:training.action_type:0
 #: sql_constraint:training.duration_type:0
 msgid "Name must be unique."
+msgstr ""
+
+#. module: training
+#: model:training.action,name:training.action_developer_training
+msgid "Odoo developer training"
+msgstr ""
+
+#. module: training
+#: model:training.action,name:training.action_open_days
+msgid "Odoo open days"
+msgstr ""
+
+#. module: training
+#: model:training.action,name:training.action_user_training
+msgid "Odoo user training"
+msgstr ""
+
+#. module: training
+#: model:training.action_type,name:training.action_type_on_site
+#: model:training.duration_type,name:training.duration_type_on_site
+msgid "On site"
+msgstr ""
+
+#. module: training
+#: model:training.action_type,name:training.action_type_online
+#: model:training.duration_type,name:training.duration_type_online
+msgid "Online"
 msgstr ""
 
 #. module: training
@@ -270,7 +302,7 @@ msgstr ""
 
 #. module: training
 #: help:event.event,training_action_id:0
-msgid "Training action of this event, if it is a course."
+msgid "Training action of this event, if it is a training group."
 msgstr ""
 
 #. module: training

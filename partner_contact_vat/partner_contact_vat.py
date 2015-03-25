@@ -18,6 +18,7 @@
 
 from openerp.osv import fields, orm
 
+
 class PartnerVATInContacts(orm.Model):
     """Allow to set up individual VAT for a company"s contacts."""
 

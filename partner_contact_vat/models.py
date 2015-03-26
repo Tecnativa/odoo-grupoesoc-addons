@@ -16,19 +16,29 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from openerp.osv import fields, orm
+from openerp import api, fields, models
 
 
-class PartnerVATInContacts(orm.Model):
+class PartnerVATInContacts(models.Model):
     """Allow to set up individual VAT for a company"s contacts."""
 
-    _name = _inherit = "res.partner"
+    _inherit = "res.partner"
 
-    _columns = {
-        "contact_vat": fields.char(
-            "Contact TIN",
-            size=32,
-            help="Tax Identification Number of the contact. "
-                 "This will not be used for commercial actions; "
-                 "instead, parent company's TIN will be used."),
-    }
+    contact_vat = fields.Char(
+        "Contact TIN",
+        size=32,
+        help="Tax Identification Number of the contact. "
+             "This will not be used for commercial actions; "
+             "instead, parent company's TIN will be used.")
+
+    @api.one
+    def best_vat_field(self):
+        """Get the best VAT field name available."""
+
+        return "vat" if self.is_company else "contact_vat"
+
+    @api.one
+    def best_vat_value(self):
+        """Automatically choose the best VAT value available."""
+
+        return getattr(self, self.best_vat_field()[0])

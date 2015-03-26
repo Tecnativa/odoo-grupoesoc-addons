@@ -18,20 +18,23 @@
 
 {
     "name": "VAT In Partners' Contacts",
-    "version": "2.0",
+    "version": "3.0",
     "category": "Accounting & Finance",
     "summary": "Allow to set up VAT for contacts",
-    "description":
-        "Add a VAT field for contacts "
-        "(those partners that are not not companies).",
+    "description": """
+Add a VAT field for contacts (those partners that are not not companies).
+
+It also adds a helper function to automatically get the VAT from the right
+field.
+""",
     "author": "Grupo ESOC",
     "website": "http://www.grupoesoc.es",
     "license": "AGPL-3",
     "installable": True,
-    "depends" : [
+    "depends": [
         "account",
     ],
-    "data" : [
+    "data": [
         "view/res_partner.xml",
     ],
 }

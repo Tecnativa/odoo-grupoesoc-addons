@@ -18,7 +18,7 @@
 
 {
     "name": "Training",
-    "version": "2.0",
+    "version": "2.1",
     "category": "Project",
     "author": "Grupo ESOC",
     "license": "AGPL-3",

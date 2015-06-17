@@ -67,6 +67,8 @@ All these things can be configured as you wish.
         "event",
     ],
     "data": [
+        "data/training.duration_type.csv",
+        "data/training.action_type.csv",
         "security/training.xml",
         "security/ir.model.access.csv",
         "views/menus.xml",
@@ -76,8 +78,6 @@ All these things can be configured as you wish.
         "views/duration_type.xml",
     ],
     "demo": [
-        "demo/training.duration_type.csv",
-        "demo/training.action_type.csv",
         "demo/training.action.csv",
         "demo/training.duration.csv",
         "demo/event.event.csv",

@@ -135,13 +135,13 @@ class Action(models.Model):
     type_id = fields.Many2one(
         _D % "action_type",
         "Training type")
-
     duration_ids = fields.One2many(
         _D % "duration",
         "action_id",
         "Expected hours",
         help="Expected duration of each type of hours for these training "
              "groups.")
+    event_ids = fields.One2many("event.event", "training_action_id", "Events")
 
     @api.onchange("type_id")
     def fulfill_expected_duration_types(self):

@@ -124,7 +124,8 @@ class Action(models.Model):
     name = fields.Char(required=True, index=True, translate=True)
     type_id = fields.Many2one(
         _D % "action_type",
-        "Training type")
+        "Training type",
+        required=True)
     duration_ids = fields.One2many(
         _D % "duration",
         "action_id",

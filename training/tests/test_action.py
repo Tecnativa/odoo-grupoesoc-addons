@@ -20,7 +20,7 @@ from .base import BaseCase
 
 
 class ActionOnChangeTypeFulfillExpectedDurationTypesCase(BaseCase):
-    """Test onchange method fulfill_expected_duration_types().
+    """Test method _onchange_type_id_fulfill_expected_duration_types().
 
     That method of training actions gets triggered when changing the action
     type, and is supposed to update the duration_ids field.
@@ -35,7 +35,7 @@ class ActionOnChangeTypeFulfillExpectedDurationTypesCase(BaseCase):
         self.action.type_id = self.action_type
 
         # This should be run automatically when on UI
-        self.action.fulfill_expected_duration_types()
+        self.action._onchange_type_id_fulfill_expected_duration_types()
 
         # Check that it was fulfilled right
         self.assertEqual(set(self.action.mapped("duration_ids.type_id.name")),

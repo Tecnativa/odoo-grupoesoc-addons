@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from openerp import _, api, fields, models
+from openerp import api, fields, models
 from . import exceptions
 
 
@@ -31,35 +31,33 @@ class DurationType(models.Model):
     """
 
     _name = _D % "duration_type"
+    _sql_constraints = [("unique_name",
+                         "UNIQUE(name)",
+                         "Name must be unique.")]
 
     name = fields.Char(required=True, index=True, translate=True)
-
     duration_ids = fields.One2many(
         _D % "duration",
         "type_id",
         "Expected hours of this type",
         help="Expected hours of this type defined in training actions.")
-
     action_type_ids = fields.Many2many(
         _D % "action_type",
         string="Training action types",
         help="Training action types that expect this hour type.")
 
-    _sql_constraints = [("unique_name",
-                         "UNIQUE(name)",
-                         "Name must be unique.")]
-
 
 class Duration(models.Model):
     _name = _D % "duration"
+    _sql_constraints = [("training_vs_hours_unique",
+                         "UNIQUE(type_id, action_id)",
+                         "Cannot repeat the hour type in a training action.")]
 
     duration = fields.Float(default=0, required=True)
-
     type_id = fields.Many2one(
         _D % "duration_type",
         "Type of hours",
         required=True)
-
     action_id = fields.Many2one(
         _D % "action",
         "Training action",
@@ -67,7 +65,7 @@ class Duration(models.Model):
 
     @api.one
     @api.constrains("type_id", "action_id")
-    def check_right_duration_types(self):
+    def _check_right_duration_types(self):
         """Check that the hour types are the right ones."""
 
         expected_types = (self.action_id.type_id
@@ -77,10 +75,6 @@ class Duration(models.Model):
             raise exceptions.WrongDurationType(
                 self.type_id,
                 expected_types)
-
-    _sql_constraints = [("training_vs_hours_unique",
-                         "UNIQUE(type_id, action_id)",
-                         "Cannot repeat the hour type in a training action.")]
 
 
 class ActionType(models.Model):
@@ -97,25 +91,22 @@ class ActionType(models.Model):
     """
 
     _name = _D % "action_type"
+    _sql_constraints = [("unique_name",
+                         "UNIQUE(name)",
+                         "Name must be unique.")]
 
     name = fields.Char(required=True, index=True, translate=True)
-
     action_ids = fields.One2many(
         _D % "action",
         "type_id",
         "Training actions",
         help="Training actions of this type.")
-
     expected_duration_type_ids = fields.Many2many(
         _D % "duration_type",
         string="Expected hour types",
         help="These types of hours are expected in this type of training "
              "action. For example, a training of type 'mixed' may expect "
              "hours of types 'on-site' and 'online'.")
-
-    _sql_constraints = [("unique_name",
-                         "UNIQUE(name)",
-                         "Name must be unique.")]
 
 
 class Action(models.Model):
@@ -131,7 +122,6 @@ class Action(models.Model):
     _name = _D % "action"
 
     name = fields.Char(required=True, index=True, translate=True)
-
     type_id = fields.Many2one(
         _D % "action_type",
         "Training type")
@@ -144,7 +134,7 @@ class Action(models.Model):
     event_ids = fields.One2many("event.event", "training_action_id", "Events")
 
     @api.onchange("type_id")
-    def fulfill_expected_duration_types(self):
+    def _onchange_type_id_fulfill_expected_duration_types(self):
         """When choosing a type of training action, fulfill the expected hours.
 
         There will be 0 hours of each type by default.
@@ -178,7 +168,6 @@ class Event(models.Model):
         _D % "action",
         "Training action",
         help="Training action of this event, if it is a training group.")
-
     tutor_ids = fields.Many2many(
         "res.partner",
         string="Tutors",

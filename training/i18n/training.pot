@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0-20150225\n"
+"Project-Id-Version: Odoo Server 8.0-20150514\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 10:33+0000\n"
-"PO-Revision-Date: 2015-03-24 10:33+0000\n"
+"POT-Creation-Date: 2015-06-18 08:08+0000\n"
+"PO-Revision-Date: 2015-06-18 08:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -89,6 +89,11 @@ msgid "<p class=\"oe_view_nocontent_create\">\n"
 msgstr ""
 
 #. module: training
+#: model:ir.ui.menu,name:training.action_types_menu
+msgid "Action types"
+msgstr ""
+
+#. module: training
 #: model:ir.ui.menu,name:training.actions_menu
 msgid "Actions"
 msgstr ""
@@ -138,6 +143,11 @@ msgstr ""
 #. module: training
 #: model:ir.model,name:training.model_event_event
 msgid "Event"
+msgstr ""
+
+#. module: training
+#: field:training.action,event_ids:0
+msgid "Events"
 msgstr ""
 
 #. module: training
@@ -245,30 +255,36 @@ msgid "Name must be unique."
 msgstr ""
 
 #. module: training
-#: model:training.action,name:training.action_developer_training
-msgid "Odoo developer training"
-msgstr ""
-
-#. module: training
-#: model:training.action,name:training.action_open_days
-msgid "Odoo open days"
-msgstr ""
-
-#. module: training
-#: model:training.action,name:training.action_user_training
-msgid "Odoo user training"
-msgstr ""
-
-#. module: training
 #: model:training.action_type,name:training.action_type_on_site
 #: model:training.duration_type,name:training.duration_type_on_site
 msgid "On site"
 msgstr ""
 
 #. module: training
+#: model:training.action_type,name:training.action_type_on_site_online
+msgid "On site and online"
+msgstr ""
+
+#. module: training
+#: model:training.action_type,name:training.action_type_on_site_remote
+msgid "On site and remote"
+msgstr ""
+
+#. module: training
 #: model:training.action_type,name:training.action_type_online
 #: model:training.duration_type,name:training.duration_type_online
 msgid "Online"
+msgstr ""
+
+#. module: training
+#: model:training.action_type,name:training.action_type_remote
+#: model:training.duration_type,name:training.duration_type_remote
+msgid "Remote"
+msgstr ""
+
+#. module: training
+#: model:training.action_type,name:training.action_type_remote_online
+msgid "Remote and online"
 msgstr ""
 
 #. module: training
@@ -307,7 +323,6 @@ msgstr ""
 
 #. module: training
 #: model:ir.actions.act_window,name:training.open_action_types_view
-#: model:ir.ui.menu,name:training.action_types_menu
 #: field:training.duration_type,action_type_ids:0
 msgid "Training action types"
 msgstr ""

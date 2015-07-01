@@ -18,7 +18,7 @@
 
 {
     "name": "Generate Event Tracks",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "category": "Project",
     "author": "Grupo ESOC",
     "license": "AGPL-3",

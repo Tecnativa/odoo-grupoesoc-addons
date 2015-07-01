@@ -46,6 +46,15 @@ class Generator(models.TransientModel):
         "Track title",
         required=True,
         help="Title that will be assigned to all created tracks.")
+    location_id = fields.Many2one("event.track.location", "Location")
+    speaker_ids = fields.Many2many(
+        "res.partner",
+        string="Speakers",
+        relation="event_track_generate_generator_speaker_ids")
+    tag_ids = fields.Many2many(
+        "event.track.tag",
+        string="Tags",
+        relation="event_track_generate_generator_tag_ids")
     mondays = fields.Boolean(help="Create tracks on Mondays.")
     tuesdays = fields.Boolean(help="Create tracks on Tuesdays.")
     wednesdays = fields.Boolean(help="Create tracks on Wednesdays.")
@@ -119,6 +128,9 @@ class Generator(models.TransientModel):
             "name": self.name,
             "event_id": self.event_id.id,
             "duration": self.duration,
+            "location_id": self.location_id.id,
+            "speaker_ids": [(6, False, self.speaker_ids.ids)],
+            "tag_ids": [(6, False, self.tag_ids.ids)],
             "user_id": self.event_id.user_id.id,
             "website_published": self.publish_tracks_in_website}
         data.update(values)

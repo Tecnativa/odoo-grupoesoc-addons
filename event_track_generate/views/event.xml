@@ -47,7 +47,7 @@
                 </group>
             </group>
             <footer>
-                <button name="generate_tracks"
+                <button name="action_generate"
                         type="object"
                         string="Generate tracks"
                         class="oe_highlight"/>
